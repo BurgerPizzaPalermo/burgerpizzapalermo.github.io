@@ -223,12 +223,12 @@
 
 
   // === MENU DINAMICO DA EXCEL ===
-  const CATEGORIES = ["Antipasti", "Impasti", "Pizze", "Hamburger", "Bibite", "Dolci"];
+  const CATEGORIES = ["Antipasti", "Aperitivi", "Impasti", "Pizze Classiche", "Pizze con Bufala", "Pizze Gourmet", "Calzoni", "Hamburger", "Secondi", "Dolci", "Bibite", "Birre alla Spina"];
 
   function createMenuItemHTML(category, nome, descrizione, prezzo, immagine) {
     const imageName = immagine && immagine.trim() !== "" ? immagine.trim() : "default.jpg";
     return `
-      <div class="col-lg-6 menu-item isotope-item filter-${category.toLowerCase()}">
+      <div class="col-lg-6 menu-item isotope-item filter-${category.toLowerCase().replaceAll(" ","-")}">
         <img src="assets/img/menu/${imageName}" class="menu-img" alt="">
         <div class="menu-content">
           <a href="#">${nome}</a><span>€${prezzo}</span>
