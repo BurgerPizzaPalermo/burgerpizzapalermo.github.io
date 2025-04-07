@@ -228,7 +228,7 @@
   function createMenuItemHTML(category, nome, descrizione, prezzo, immagine) {
     const imageName = immagine && immagine.trim() !== "" ? immagine.trim() : "default.jpg";
     return `
-      <div class="col-lg-6 menu-item isotope-item filter-${category.toLowerCase().replaceAll(" ","-")}">
+      <div class="col-lg-6 menu-item isotope-item filter-${category}">
         <img src="assets/img/menu/${imageName}" class="menu-img" alt="">
         <div class="menu-content">
           <a href="#">${nome}</a><span>€${prezzo}</span>
@@ -237,20 +237,6 @@
       </div>
     `;
   }
-  
-  /*
-  function createMenuItemHTML(category, nome, descrizione, prezzo) {
-    return `
-      <div class="col-lg-6 menu-item isotope-item filter-${category.toLowerCase()}">
-        <img src="assets/img/menu/default.jpg" class="menu-img" alt="">
-        <div class="menu-content">
-          <a href="#">${nome}</a><span>€${prezzo}</span>
-        </div>
-        <div class="menu-ingredients">${descrizione}</div>
-      </div>
-    `;
-  }
-  */
 
   function loadExcelFile() {
     fetch('prodotti.xlsx')
@@ -261,27 +247,22 @@
         container.innerHTML = '';
 
         CATEGORIES.forEach(cat => {
+          const catValue = cat.toLowerCase().replaceAll(" ","-")
           if (wb.SheetNames.includes(cat)) {
             const rows = XLSX.utils.sheet_to_json(wb.Sheets[cat], { header: 1, blankrows: false });
             rows.shift(); // rimuovi intestazione
             if (rows.length > 0) {
               rows.forEach(row => {
                 const [nome, descr, prezzo, immagine] = row;
-                container.innerHTML += createMenuItemHTML(cat, nome || '', descr || '', prezzo || '0.00', immagine || '');
+                container.innerHTML += createMenuItemHTML(catValue, nome || '', descr || '', prezzo || '0.00', immagine || '');
               });
-              /*
-              rows.forEach(row => {
-                const [nome, descr, prezzo] = row;
-                container.innerHTML += createMenuItemHTML(cat, nome || '', descr || '', prezzo || '0.00');
-              });
-              */
             } else {
-              container.innerHTML += `<div class="col-lg-6 menu-item isotope-item filter-${cat.toLowerCase()}"><div class="empty-category">Nessun prodotto</div></div>`;
+              container.innerHTML += `<div class="col-lg-6 menu-item isotope-item filter-${catValue}"><div class="empty-category">Nessun prodotto</div></div>`;
               console.error("Nessun prodotto")
             }
           } else {
-            container.innerHTML += `<div class="col-lg-6 menu-item isotope-item filter-${cat.toLowerCase()}"><div class="empty-category">Categoria non trovata</div></div>`;
-            console.error("Categoria " + cat.toLowerCase() + " non trovata")
+            container.innerHTML += `<div class="col-lg-6 menu-item isotope-item filter-${catValue}"><div class="empty-category">Categoria non trovata</div></div>`;
+            console.error("Categoria " + cat + " non trovata")
           }
         });
 
@@ -296,7 +277,8 @@
         const container = document.getElementById('menu-container');
         container.innerHTML = '';
         CATEGORIES.forEach(cat => {
-          container.innerHTML += `<div class="col-lg-6 menu-item isotope-item filter-${cat.toLowerCase()}"><div class="empty-category">File Excel non trovato</div></div>`;
+          const catValue = cat.toLowerCase().replaceAll(" ","-")
+          container.innerHTML += `<div class="col-lg-6 menu-item isotope-item filter-${catValue}"><div class="empty-category">File Excel non trovato</div></div>`;
           console.error("File Excel dei prodotti non trovato")
         });
       });
