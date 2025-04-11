@@ -226,10 +226,10 @@
   const CATEGORIES = ["Antipasti", "Aperitivi", "Impasti", "Pizze Classiche", "Pizze con Bufala", "Pizze Gourmet", "Calzoni", "Hamburger", "Secondi", "Dolci", "Bibite", "Birre alla Spina"];
 
   function createMenuItemHTML(category, nome, descrizione, prezzo, immagine) {
-    const imageName = immagine && immagine.trim() !== "" ? immagine.trim() : "default.jpg";
+    const imageName = immagine && immagine.trim() !== "" ? immagine.trim() : "default.webP";
     return `
       <div class="col-lg-6 menu-item isotope-item filter-${category}">
-        <img src="assets/img/menu/${imageName}" class="menu-img" alt="${imageName} foto" onerror="this.onerror=null;this.src='assets/img/menu/default.jpg';" loading="lazy">
+        <img src="assets/img/menu/${imageName}" class="menu-img" alt="${imageName} foto" onerror="this.onerror=null;this.src='assets/img/menu/default.webP';" loading="lazy">
         <div class="menu-content">
           <a href="#">${nome}</a><span>€${prezzo}</span>
         </div>
@@ -260,7 +260,7 @@
             } else {
               container.innerHTML += 
                 `<div class="col-lg-6 menu-item isotope-item filter-${catValue}">
-                  <img src="assets/img/menu/default.jpg" class="menu-img" alt="immagine di default">
+                  <img src="assets/img/menu/default.webP" class="menu-img" alt="immagine di default">
                   <div class="menu-content">
                     <span>Nessun prodotto nella categoria</span>
                   </div>
@@ -271,7 +271,7 @@
           } else {
             container.innerHTML += 
               `<div class="col-lg-6 menu-item isotope-item filter-${catValue}">
-                <img src="assets/img/menu/default.jpg" class="menu-img" alt="immagine di default">
+                <img src="assets/img/menu/default.webP" class="menu-img" alt="immagine di default">
                 <div class="menu-content">
                   <span>Categoria non trovata</span>
                 </div>
@@ -292,7 +292,7 @@
           const catValue = cat.toLowerCase().replaceAll(" ","-")
           container.innerHTML += 
             `<div class="col-lg-6 menu-item isotope-item filter-${catValue}">
-              <img src="assets/img/menu/default.jpg" class="menu-img" alt="immagine di default">
+              <img src="assets/img/menu/default.webP" class="menu-img" alt="immagine di default">
               <div class="menu-content">
                 <span>File Excel dei prodotti non trovato</span>
               </div>
