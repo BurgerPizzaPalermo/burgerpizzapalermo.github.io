@@ -258,11 +258,11 @@
                 container.innerHTML += createMenuItemHTML(catValue, nome || '', descr || '', prezzo || '0.00', immagine || '');
               });
             } else {
-              container.innerHTML += `<div class="col-lg-6 menu-item isotope-item filter-${catValue}"><div class="empty-category">Nessun prodotto</div></div>`;
+              container.innerHTML += `<div class="col-lg-6 menu-item isotope-item filter-${catValue}"><div>Nessun prodotto</div></div>`;
               console.error("Nessun prodotto")
             }
           } else {
-            container.innerHTML += `<div class="col-lg-6 menu-item isotope-item filter-${catValue}"><div class="empty-category">Categoria non trovata</div></div>`;
+            container.innerHTML += `<div class="col-lg-6 menu-item isotope-item filter-${catValue}"><div>Categoria non trovata</div></div>`;
             console.error("Categoria " + cat + " non trovata")
           }
         });
@@ -279,7 +279,7 @@
         container.innerHTML = '';
         CATEGORIES.forEach(cat => {
           const catValue = cat.toLowerCase().replaceAll(" ","-")
-          container.innerHTML += `<div class="col-lg-6 menu-item isotope-item filter-${catValue}"><div class="empty-category">File Excel non trovato</div></div>`;
+          container.innerHTML += `<div class="col-lg-6 menu-item isotope-item filter-${catValue}"><div>File Excel non trovato</div></div>`;
           console.error("File Excel dei prodotti non trovato")
         });
       });
@@ -339,20 +339,26 @@
             });
   
             const htmlItems = await Promise.all(promises);
-            container.innerHTML += htmlItems.join("");
+            container.innerHTML = htmlItems.join("");
           } else {
             container.innerHTML += `
               <div class="col-lg-6 menu-item isotope-item filter-${catValue}">
-                <div class="empty-category">Nessun prodotto</div>
+                <div class="menu-content">
+                  <span>Nessun prodotto nella categoria</span>
+                </div>
+                <div class="menu-ingredients">Categoria vuota</div>
               </div>`;
             console.error("Nessun prodotto");
           }
         } else {
           container.innerHTML += `
             <div class="col-lg-6 menu-item isotope-item filter-${catValue}">
-              <div class="empty-category">Categoria non trovata</div>
+              <div class="menu-content">
+                <span>Categoria non trovata</span>
+              </div>
+              <div class="menu-ingredients">Controlla il file prodotti</div>
             </div>`;
-          console.error("Categoria " + cat + " non trovata");
+          console.error("Categoria " + catValue + " non trovata");
         }
       }
   
@@ -370,7 +376,10 @@
         const catValue = cat.toLowerCase().replaceAll(" ", "-");
         container.innerHTML += `
           <div class="col-lg-6 menu-item isotope-item filter-${catValue}">
-            <div class="empty-category">File Excel non trovato</div>
+              <div class="menu-content">
+                <span>File Excel dei prodotti non trovato</span>
+              </div>
+              <div class="menu-ingredients">Contatta l'amministratore del sito</div>
           </div>`;
         console.error("File Excel dei prodotti non trovato");
       });
