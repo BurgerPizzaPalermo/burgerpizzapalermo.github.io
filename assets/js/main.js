@@ -239,12 +239,13 @@
   }
 
   function loadExcelFile() {
-    const container = document.getElementById('menu-container');
-    container.innerHTML = '';
     fetch('prodotti.xlsx')
       .then(res => res.arrayBuffer())
       .then(data => {
         const wb = XLSX.read(data, { type: 'array' });
+        const container = document.getElementById('menu-container');
+        container.innerHTML = '';
+
         CATEGORIES.forEach(cat => {
           const catValue = cat.toLowerCase().replaceAll(" ","-")
           if (wb.SheetNames.includes(cat)) {
@@ -278,8 +279,16 @@
             console.error("Categoria " + catValue + " non trovata")
           }
         });
+        // Ricalcola il layout Isotope dopo il caricamento
+        const isoContainer = document.querySelector('.isotope-container');
+        if (isoContainer && Isotope.data(isoContainer)) {
+          Isotope.data(isoContainer).reloadItems();
+          Isotope.data(isoContainer).arrange();
+        }
       })
       .catch(() => {
+        const container = document.getElementById('menu-container');
+        container.innerHTML = '';
         CATEGORIES.forEach(cat => {
           const catValue = cat.toLowerCase().replaceAll(" ","-")
           container.innerHTML += 
@@ -292,13 +301,13 @@
             </div>`
           console.error("File Excel dei prodotti non trovato")
         });
+        // Ricalcola il layout Isotope dopo il caricamento
+        const isoContainer = document.querySelector('.isotope-container');
+        if (isoContainer && Isotope.data(isoContainer)) {
+          Isotope.data(isoContainer).reloadItems();
+          Isotope.data(isoContainer).arrange();
+        }
       });
-      // Ricalcola il layout Isotope dopo il caricamento
-      const isoContainer = document.querySelector('.isotope-container');
-      if (isoContainer && Isotope.data(isoContainer)) {
-        Isotope.data(isoContainer).reloadItems();
-        Isotope.data(isoContainer).arrange();
-      }
   }
 
   window.addEventListener('load', loadExcelFile);
