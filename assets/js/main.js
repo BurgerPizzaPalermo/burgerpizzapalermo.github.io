@@ -225,6 +225,7 @@
   // === MENU DINAMICO DA EXCEL ===
   const CATEGORIES = ["Antipasti", "Aperitivi", "Impasti", "Pizze Classiche", "Pizze con Bufala", "Pizze Gourmet", "Calzoni", "Hamburger", "Secondi", "Dolci", "Bibite", "Birre alla Spina"];
 
+  /*
   function createMenuItemHTML(category, nome, descrizione, prezzo, immagine) {
     const imageName = immagine && immagine.trim() !== "" ? immagine.trim() : "default.jpg";
     return `
@@ -237,6 +238,43 @@
       </div>
     `;
   }
+  */
+
+  function createMenuItemHTML(category, nome, descrizione, prezzo, immagine) {
+    return new Promise((resolve) => {
+      const imageName = immagine && immagine.trim() !== "" ? immagine.trim() : "default.jpg";
+      const imagePath = `assets/img/menu/${imageName}`;
+  
+      fetch(imagePath, { method: 'HEAD' })
+        .then(response => {
+          const finalImage = response.ok ? imageName : "default.jpg";
+          const html = `
+            <div class="col-lg-6 menu-item isotope-item filter-${category}">
+              <img src="assets/img/menu/${finalImage}" class="menu-img" alt="">
+              <div class="menu-content">
+                <a href="#">${nome}</a><span>€${prezzo}</span>
+              </div>
+              <div class="menu-ingredients">${descrizione}</div>
+            </div>
+          `;
+          resolve(html);
+        })
+        .catch(() => {
+          // In caso di errore di rete ecc., fallback alla default
+          const html = `
+            <div class="col-lg-6 menu-item isotope-item filter-${category}">
+              <img src="assets/img/menu/default.jpg" class="menu-img" alt="">
+              <div class="menu-content">
+                <a href="#">${nome}</a><span>€${prezzo}</span>
+              </div>
+              <div class="menu-ingredients">${descrizione}</div>
+            </div>
+          `;
+          resolve(html);
+        });
+    });
+  }
+  
 
   function loadExcelFile() {
     fetch('prodotti.xlsx')
@@ -252,10 +290,28 @@
             const rows = XLSX.utils.sheet_to_json(wb.Sheets[cat], { header: 1, blankrows: false });
             rows.shift(); // rimuovi intestazione
             if (rows.length > 0) {
+              const promises = rows.map(row => {
+                const [nome, descr, prezzo, immagine] = row;
+                return createMenuItemHTML(catValue, nome || '', descr || '', prezzo || '0.00', immagine || '');
+              });
+              
+              Promise.all(promises).then(htmlArray => {
+                htmlArray.forEach(html => {
+                  container.innerHTML += html;
+                });
+                // Ricalcola il layout Isotope dopo il caricamento
+                const isoContainer = document.querySelector('.isotope-container');
+                if (isoContainer && Isotope.data(isoContainer)) {
+                  Isotope.data(isoContainer).reloadItems();
+                  Isotope.data(isoContainer).arrange();
+                }
+              });
+              /*
               rows.forEach(row => {
                 const [nome, descr, prezzo, immagine] = row;
                 container.innerHTML += createMenuItemHTML(catValue, nome || '', descr || '', prezzo || '0.00', immagine || '');
               });
+              */
             } else {
               container.innerHTML += 
                 `<div class="col-lg-6 menu-item isotope-item filter-${catValue}">
