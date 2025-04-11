@@ -225,6 +225,7 @@
   // === MENU DINAMICO DA EXCEL ===
   const CATEGORIES = ["Antipasti", "Aperitivi", "Impasti", "Pizze Classiche", "Pizze con Bufala", "Pizze Gourmet", "Calzoni", "Hamburger", "Secondi", "Dolci", "Bibite", "Birre alla Spina"];
 
+  /*
   function createMenuItemHTML(category, nome, descrizione, prezzo, immagine) {
     const imageName = immagine && immagine.trim() !== "" ? immagine.trim() : "default.jpg";
     return `
@@ -283,6 +284,98 @@
         });
       });
   }
+      */
+
+  async function imageExists(url) {
+    try {
+      const response = await fetch(url, { method: 'GET', cache: 'no-store' });
+      return response.ok;
+    } catch {
+      return false;
+    }
+  }
+
+  async function createMenuItemHTML(category, nome, descrizione, prezzo, immagine) {
+    const trimmedImage = immagine && immagine.trim() !== "" ? immagine.trim() : "";
+    const imagePath = `assets/img/menu/${trimmedImage}`;
+    const exists = trimmedImage ? await imageExists(imagePath) : false;
+    const imageToUse = exists ? trimmedImage : "default.jpg";
+  
+    return `
+      <div class="col-lg-6 menu-item isotope-item filter-${category}">
+        <img src="assets/img/menu/${imageToUse}" class="menu-img" alt="">
+        <div class="menu-content">
+          <a href="#">${nome}</a><span>€${prezzo}</span>
+        </div>
+        <div class="menu-ingredients">${descrizione}</div>
+      </div>
+    `;
+  }
+  
+  async function loadExcelFile() {
+    const container = document.getElementById('menu-container');
+    container.innerHTML = `
+      <div class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Caricamento menu...</p>
+      </div>
+    `;
+    try {
+      const res = await fetch('prodotti.xlsx');
+      const data = await res.arrayBuffer();
+      const wb = XLSX.read(data, { type: 'array' });
+  
+      for (const cat of CATEGORIES) {
+        const catValue = cat.toLowerCase().replaceAll(" ", "-");
+  
+        if (wb.SheetNames.includes(cat)) {
+          const rows = XLSX.utils.sheet_to_json(wb.Sheets[cat], { header: 1, blankrows: false });
+          rows.shift(); // rimuovi intestazione
+  
+          if (rows.length > 0) {
+            const promises = rows.map(row => {
+              const [nome, descr, prezzo, immagine] = row;
+              return createMenuItemHTML(catValue, nome || '', descr || '', prezzo || '0.00', immagine || '');
+            });
+  
+            const htmlItems = await Promise.all(promises);
+            container.innerHTML += htmlItems.join("");
+          } else {
+            container.innerHTML += `
+              <div class="col-lg-6 menu-item isotope-item filter-${catValue}">
+                <div class="empty-category">Nessun prodotto</div>
+              </div>`;
+            console.error("Nessun prodotto");
+          }
+        } else {
+          container.innerHTML += `
+            <div class="col-lg-6 menu-item isotope-item filter-${catValue}">
+              <div class="empty-category">Categoria non trovata</div>
+            </div>`;
+          console.error("Categoria " + cat + " non trovata");
+        }
+      }
+  
+      // Ricalcola il layout Isotope dopo il caricamento
+      const isoContainer = document.querySelector('.isotope-container');
+      if (isoContainer && Isotope.data(isoContainer)) {
+        Isotope.data(isoContainer).reloadItems();
+        Isotope.data(isoContainer).arrange();
+      }
+  
+    } catch (error) {
+      const container = document.getElementById('menu-container');
+      container.innerHTML = '';
+      CATEGORIES.forEach(cat => {
+        const catValue = cat.toLowerCase().replaceAll(" ", "-");
+        container.innerHTML += `
+          <div class="col-lg-6 menu-item isotope-item filter-${catValue}">
+            <div class="empty-category">File Excel non trovato</div>
+          </div>`;
+        console.error("File Excel dei prodotti non trovato");
+      });
+    }
+  }  
 
   window.addEventListener('load', loadExcelFile);
   // === FINE MENU DINAMICO DA EXCEL ===
