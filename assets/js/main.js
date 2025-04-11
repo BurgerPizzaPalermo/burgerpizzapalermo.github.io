@@ -229,7 +229,7 @@
     const imageName = immagine && immagine.trim() !== "" ? immagine.trim() : "default.jpg";
     return `
       <div class="col-lg-6 menu-item isotope-item filter-${category}">
-        <img src="assets/img/menu/${imageName}" class="menu-img" alt="">
+        <img src="assets/img/menu/${imageName}" class="menu-img" alt="${imageName} foto" onerror="this.onerror=null;this.src='assets/img/menu/default.jpg';">
         <div class="menu-content">
           <a href="#">${nome}</a><span>€${prezzo}</span>
         </div>
@@ -259,7 +259,7 @@
             } else {
               container.innerHTML += 
                 `<div class="col-lg-6 menu-item isotope-item filter-${catValue}">
-                  <img src="assets/img/menu/default.jpg" class="menu-img" alt="">
+                  <img src="assets/img/menu/default.jpg" class="menu-img" alt="immagine di default">
                   <div class="menu-content">
                     <span>Nessun prodotto nella categoria</span>
                   </div>
@@ -270,7 +270,7 @@
           } else {
             container.innerHTML += 
               `<div class="col-lg-6 menu-item isotope-item filter-${catValue}">
-                <img src="assets/img/menu/default.jpg" class="menu-img" alt="">
+                <img src="assets/img/menu/default.jpg" class="menu-img" alt="immagine di default">
                 <div class="menu-content">
                   <span>Categoria non trovata</span>
                 </div>
@@ -293,7 +293,7 @@
           const catValue = cat.toLowerCase().replaceAll(" ","-")
           container.innerHTML += 
             `<div class="col-lg-6 menu-item isotope-item filter-${catValue}">
-              <img src="assets/img/menu/default.jpg" class="menu-img" alt="">
+              <img src="assets/img/menu/default.jpg" class="menu-img" alt="immagine di default">
               <div class="menu-content">
                 <span>File Excel dei prodotti non trovato</span>
               </div>
