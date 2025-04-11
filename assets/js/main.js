@@ -229,7 +229,7 @@
     const imageName = immagine && immagine.trim() !== "" ? immagine.trim() : "default.jpg";
     return `
       <div class="col-lg-6 menu-item isotope-item filter-${category}">
-        <img src="assets/img/menu/${imageName}" class="menu-img" alt="${imageName} foto" onerror="this.onerror=null;this.src='assets/img/menu/default.jpg';">
+        <img src="assets/img/menu/${imageName}" class="menu-img" alt="${imageName} foto" onerror="this.onerror=null;this.src='assets/img/menu/default.jpg';" loading="lazy">
         <div class="menu-content">
           <a href="#">${nome}</a><span>€${prezzo}</span>
         </div>
@@ -239,23 +239,24 @@
   }
 
   function loadExcelFile() {
+    const container = document.getElementById('menu-container');
+    container.innerHTML = '';
     fetch('prodotti.xlsx')
       .then(res => res.arrayBuffer())
       .then(data => {
         const wb = XLSX.read(data, { type: 'array' });
-        const container = document.getElementById('menu-container');
-        container.innerHTML = '';
-
         CATEGORIES.forEach(cat => {
           const catValue = cat.toLowerCase().replaceAll(" ","-")
           if (wb.SheetNames.includes(cat)) {
             const rows = XLSX.utils.sheet_to_json(wb.Sheets[cat], { header: 1, blankrows: false });
             rows.shift(); // rimuovi intestazione
             if (rows.length > 0) {
+              let html = '';
               rows.forEach(row => {
                 const [nome, descr, prezzo, immagine] = row;
-                container.innerHTML += createMenuItemHTML(catValue, nome || '', descr || '', prezzo || '0.00', immagine || '');
+                html += createMenuItemHTML(catValue, nome || '', descr || '', prezzo || '0.00', immagine || '');
               });
+              container.innerHTML += html;
             } else {
               container.innerHTML += 
                 `<div class="col-lg-6 menu-item isotope-item filter-${catValue}">
@@ -287,8 +288,6 @@
         }
       })
       .catch(() => {
-        const container = document.getElementById('menu-container');
-        container.innerHTML = '';
         CATEGORIES.forEach(cat => {
           const catValue = cat.toLowerCase().replaceAll(" ","-")
           container.innerHTML += 
