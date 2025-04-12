@@ -15,27 +15,41 @@
   <meta name="description" content="Gusta le nostre speciali pizze e i nostri hamburger succulenti a Palermo da BurgerPizza. Ingredienti freschi, Gluten-free, atmosfera accogliente. Ti aspettiamo!">
   <meta name="keywords" content="pizza, hamburger, gluten-free, celiaco, celiachia, gluten free, palermo, Ristorante, pizzeria, vino, birre artigianali">
 
-  <!-- Favicons -->
+  <!-- Favicon -->
   <link href="assets/img/icons-and-logos/favicon.png" rel="icon">
   <link href="assets/img/icons-and-logos/apple-touch-icon.png" rel="apple-touch-icon">
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Satisfy:wght@400&display=swap" rel="stylesheet">
+  <!-- Preconnect per i font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- Vendor CSS Files -->
+  <!-- Google Fonts - non bloccanti -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Satisfy&display=swap" 
+        rel="stylesheet" 
+        media="print" 
+        onload="this.media='all'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Satisfy&display=swap" rel="stylesheet">
+  </noscript>
+
+  <!-- Critical Bootstrap e Main CSS -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
-  <!-- Main CSS File -->
+  <!-- CSS non critico - caricato asincrono -->
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- Main CSS -->
   <link href="assets/css/main.css" rel="stylesheet">
 
-  <!-- Image Preload-->
-  <link rel="preload" href="assets/img/menu/default.webp" as="image">
+  <!-- Preload immagine del logo (opzionale, se PNG e LCP) -->
+  <link rel="preload" as="image" href="assets/img/icons-and-logos/logo.png">
+
+  <!-- Meta SEO -->
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#111">
 
   <!-- =======================================================
   * Template Name: Delicious
