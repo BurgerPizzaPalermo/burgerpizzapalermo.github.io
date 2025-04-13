@@ -1,0 +1,5 @@
+# Node.js dependencies
+node_modules/
+
+# Ambiente npm
+package-lock.json

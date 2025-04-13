@@ -1,0 +1,12 @@
+{
+  "name": "burgerpizzapalermo.github.io",
+  "version": "1.0.0",
+  "description": "Questo progetto è rilasciato sotto licenza [MIT](LICENSE).\r - Il codice (HTML, CSS, JS) è coperto da MIT.\r - Il template “Delicious” di BootstrapMade richiede di mantenere i credit.\r - Il brand e il logo “BurgerPizza” restano di proprietà esclusiva.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
