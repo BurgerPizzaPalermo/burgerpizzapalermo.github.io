@@ -18,7 +18,7 @@
 
   //USARE QUESTA PER ULTIMA VERSIONE <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
   async function loadExcelFile() {
-    const XLSX = await import('https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js');
+    const { default: XLSX } = await import('https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js');
     const container = document.getElementById('menu-container');
     container.innerHTML = '';
 
