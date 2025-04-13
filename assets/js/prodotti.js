@@ -16,13 +16,26 @@
     `;
   }
 
-  //USARE QUESTA PER ULTIMA VERSIONE <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  function loadSheetJSLibrary() {
+    return new Promise((resolve, reject) => {
+      if (window.XLSX) {
+        return resolve(window.XLSX);
+      }
+
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js";
+      script.onload = () => resolve(window.XLSX);
+      script.onerror = () => reject(new Error("Impossibile caricare SheetJS"));
+      document.head.appendChild(script);
+    });
+  }
+
   async function loadExcelFile() {
-    const { default: XLSX } = await import('https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js');
     const container = document.getElementById('menu-container');
     container.innerHTML = '';
 
     try {
+      const XLSX = await loadSheetJSLibrary();
       const res = await fetch('prodotti.xlsx');
       const data = await res.arrayBuffer();
       const wb = XLSX.read(data, { type: 'array' });
@@ -31,7 +44,7 @@
         const catValue = cat.toLowerCase().replaceAll(" ", "-");
         if (wb.SheetNames.includes(cat)) {
           const rows = XLSX.utils.sheet_to_json(wb.Sheets[cat], { header: 1, blankrows: false });
-          rows.shift(); // rimuovi intestazione
+          rows.shift();
           if (rows.length > 0) {
             let html = '';
             rows.forEach(row => {
@@ -41,23 +54,20 @@
             container.innerHTML += html;
           } else {
             container.innerHTML += noItemsTemplate(catValue, "Nessun prodotto nella categoria");
-            console.error("Nessun prodotto");
           }
         } else {
           container.innerHTML += noItemsTemplate(catValue, "Categoria non trovata");
-          console.error("Categoria " + catValue + " non trovata");
         }
       });
 
     } catch (err) {
+      console.error(err);
       CATEGORIES.forEach(cat => {
         const catValue = cat.toLowerCase().replaceAll(" ", "-");
         container.innerHTML += noItemsTemplate(catValue, "File Excel dei prodotti non trovato");
-        console.error("File Excel dei prodotti non trovato");
       });
     }
 
-    // Ricalcola il layout Isotope dopo il caricamento
     const isoContainer = document.querySelector('.isotope-container');
     if (isoContainer && Isotope.data(isoContainer)) {
       Isotope.data(isoContainer).reloadItems();
@@ -77,5 +87,4 @@
   }
 
   window.addEventListener('load', loadExcelFile);
-
 })();
