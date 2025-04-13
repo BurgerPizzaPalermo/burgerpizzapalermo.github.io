@@ -45,7 +45,7 @@
   <link href="assets/css/main.css" rel="stylesheet">
 
   <!-- Preload immagine del logo e carosello1 -->
-  <link rel="preload" as="image" href="assets/img/icons-and-logos/logo.webp" type="image/webp">
+  <link rel="preload" as="image" href="assets/img/icons-and-logos/logo.webp" type="image/webp" fetchpriority="high">
   <link rel="preload" as="image" href="assets/img/hero-carousel/hero_carousel_1.webp" type="image/webp" fetchpriority="high">
 
   <!-- Meta SEO -->
@@ -81,6 +81,7 @@
           <img src="assets/img/icons-and-logos/logo.webp"
             alt="logo del locale"
             loading="eager"
+            fetchpriority="high"
             decoding="async">
           <h1 class="sitename">BurgerPizza</h1>
         </a>
