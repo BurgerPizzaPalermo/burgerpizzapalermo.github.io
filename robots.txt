@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://burgerpizzapalermo.github.io/burger-pizza/sitemap.xml
