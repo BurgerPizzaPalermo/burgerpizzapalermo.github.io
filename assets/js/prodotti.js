@@ -1,7 +1,11 @@
 (function () {
   "use strict";
 
-  const CATEGORIES = ["Antipasti", "Aperitivi", "Impasti", "Pizze Classiche", "Pizze con Bufala", "Pizze Gourmet", "Calzoni", "Hamburger", "Secondi", "Dolci", "Bibite", "Birre alla Spina"];
+  const CATEGORIES = [
+    "Antipasti", "Aperitivi", "Impasti", "Pizze Classiche",
+    "Pizze con Bufala", "Pizze Gourmet", "Calzoni", "Hamburger",
+    "Secondi", "Dolci", "Bibite", "Birre alla Spina"
+  ];
 
   function createMenuItemHTML(category, nome, descrizione, prezzo, immagine) {
     const imageName = immagine && immagine.trim() !== "" ? immagine.trim() : "default.webp";
@@ -16,65 +20,6 @@
     `;
   }
 
-  function loadSheetJSLibrary() {
-    return new Promise((resolve, reject) => {
-      if (window.XLSX) {
-        return resolve(window.XLSX);
-      }
-
-      const script = document.createElement("script");
-      script.src = "https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js";
-      script.onload = () => resolve(window.XLSX);
-      script.onerror = () => reject(new Error("Impossibile caricare SheetJS"));
-      document.head.appendChild(script);
-    });
-  }
-
-  async function loadExcelFile() {
-    const container = document.getElementById('menu-container');
-    container.innerHTML = '';
-
-    try {
-      const XLSX = await loadSheetJSLibrary();
-      const res = await fetch('prodotti.xlsx');
-      const data = await res.arrayBuffer();
-      const wb = XLSX.read(data, { type: 'array' });
-
-      CATEGORIES.forEach(cat => {
-        const catValue = cat.toLowerCase().replaceAll(" ", "-");
-        if (wb.SheetNames.includes(cat)) {
-          const rows = XLSX.utils.sheet_to_json(wb.Sheets[cat], { header: 1, blankrows: false });
-          rows.shift();
-          if (rows.length > 0) {
-            let html = '';
-            rows.forEach(row => {
-              const [nome, descr, prezzo, immagine] = row;
-              html += createMenuItemHTML(catValue, nome || '', descr || '', prezzo || '0.00', immagine || '');
-            });
-            container.innerHTML += html;
-          } else {
-            container.innerHTML += noItemsTemplate(catValue, "Nessun prodotto nella categoria");
-          }
-        } else {
-          container.innerHTML += noItemsTemplate(catValue, "Categoria non trovata");
-        }
-      });
-
-    } catch (err) {
-      console.error(err);
-      CATEGORIES.forEach(cat => {
-        const catValue = cat.toLowerCase().replaceAll(" ", "-");
-        container.innerHTML += noItemsTemplate(catValue, "File Excel dei prodotti non trovato");
-      });
-    }
-
-    const isoContainer = document.querySelector('.isotope-container');
-    if (isoContainer && Isotope.data(isoContainer)) {
-      Isotope.data(isoContainer).reloadItems();
-      Isotope.data(isoContainer).arrange();
-    }
-  }
-
   function noItemsTemplate(category, msg) {
     return `
       <div class="col-lg-6 menu-item isotope-item filter-${category}">
@@ -86,5 +31,52 @@
       </div>`;
   }
 
-  window.addEventListener('load', loadExcelFile);
+  async function loadCategoryCSV(category, container) {
+    const catValue = category.toLowerCase().replaceAll(" ", "-");
+    const url = `assets/data/${category}.csv`;
+
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("CSV non trovato");
+      const csvText = await res.text();
+
+      const rows = csvText.trim().split("\n").map(line => {
+        return line.split(";").map(cell => cell.trim().replace(/^"|"$/g, ''));
+      });
+
+      rows.shift();
+
+      if (rows.length === 0) {
+        container.innerHTML += noItemsTemplate(catValue, "Nessun prodotto nella categoria");
+        return;
+      }
+
+      let html = '';
+      rows.forEach(([nome, descr, prezzo, immagine]) => {
+        html += createMenuItemHTML(catValue, nome || '', descr || '', prezzo || '0.00', immagine || '');
+      });
+
+      container.innerHTML += html;
+
+    } catch (err) {
+      container.innerHTML += noItemsTemplate(catValue, "Categoria non trovata o CSV mancante");
+      console.error(`Errore nella categoria "${category}":`, err.message);
+    }
+  }
+
+  async function loadCSVFiles() {
+    const container = document.getElementById('menu-container');
+    container.innerHTML = '';
+
+    await Promise.all(CATEGORIES.map(cat => loadCategoryCSV(cat, container)));
+
+    const isoContainer = document.querySelector('.isotope-container');
+    if (isoContainer && Isotope.data(isoContainer)) {
+      Isotope.data(isoContainer).reloadItems();
+      Isotope.data(isoContainer).arrange();
+    }
+  }
+
+  window.addEventListener('load', loadCSVFiles);
+
 })();
