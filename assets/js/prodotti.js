@@ -33,7 +33,7 @@
 
   async function loadCategoryCSV(category, container) {
     const catValue = category.toLowerCase().replaceAll(" ", "-");
-    const url = `assets/data/${category}.csv`;
+    const url = `data/${category}.csv`;
 
     try {
       const res = await fetch(url);
