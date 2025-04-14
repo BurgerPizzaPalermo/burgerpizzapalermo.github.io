@@ -9,16 +9,22 @@
 
   function createMenuItemHTML(category, nome, descrizione, prezzo, immagine) {
     const imageName = immagine && immagine.trim() !== "" ? immagine.trim() : "default.webp";
+    const imagePath = `assets/img/menu/${imageName}`;
+  
     return `
       <div class="col-lg-6 menu-item isotope-item filter-${category}">
-        <img src="assets/img/menu/${imageName}" class="menu-img" alt="${imageName} foto" onerror="this.onerror=null;this.src='assets/img/menu/default.webp';" loading="lazy">
+        <a href="${imagePath}" class="glightbox" data-gallery="menu-gallery">
+          <img src="${imagePath}" class="menu-img" alt="${imageName} foto" 
+               onerror="this.onerror=null;this.src='assets/img/menu/default.webp';" 
+               loading="lazy">
+        </a>
         <div class="menu-content">
           <a href="#menu">${nome}</a><span>€${prezzo}</span>
         </div>
         <div class="menu-ingredients">${descrizione}</div>
       </div>
     `;
-  }
+  }  
 
   function noItemsTemplate(category, msg) {
     return `
