@@ -13,7 +13,7 @@
       <div class="col-lg-6 menu-item isotope-item filter-${category}">
         <img src="assets/img/menu/${imageName}" class="menu-img" alt="${imageName} foto" onerror="this.onerror=null;this.src='assets/img/menu/default.webp';" loading="lazy">
         <div class="menu-content">
-          <a href="#">${nome}</a><span>€${prezzo}</span>
+          <a href="#menu">${nome}</a><span>€${prezzo}</span>
         </div>
         <div class="menu-ingredients">${descrizione}</div>
       </div>
