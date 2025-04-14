@@ -11,7 +11,7 @@
     const imageName = immagine && immagine.trim() !== "" ? immagine.trim() : "default.webp";
     return `
       <div class="col-lg-6 menu-item isotope-item filter-${category}">
-        <a href="assets/img/gallery/gallery-1.webp" class="glightbox" data-gallery="images-gallery" aria-label="foto del locale" >
+        <a href="assets/img/menu/${imageName}" class="glightbox" data-gallery="images-gallery" aria-label="assets/img/menu/${imageName} foto" >
           <img src="assets/img/menu/${imageName}" class="menu-img img-fluid" alt="${imageName} foto" onerror="this.onerror=null;this.src='assets/img/menu/default.webp';" loading="lazy">
         </a>
         
