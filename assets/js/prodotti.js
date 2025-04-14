@@ -81,6 +81,14 @@
       Isotope.data(isoContainer).reloadItems();
       Isotope.data(isoContainer).arrange();
     }
+
+    if (window.menuLightbox) {
+      window.menuLightbox.destroy();
+    }
+    window.menuLightbox = GLightbox({
+      selector: '.glightbox'
+    });
+    
   }
 
   window.addEventListener('load', loadCSVFiles);
