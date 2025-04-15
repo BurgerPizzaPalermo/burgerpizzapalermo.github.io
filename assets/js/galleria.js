@@ -1,7 +1,27 @@
 (function () {
     "use strict";
   
-    const galleryImages = Array.from({ length: 15 }, (_, i) => `assets/img/gallery/gallery-${i + 1}.webp`);
+    function createSectionTitle({ title, subtitle, highlight }) {
+      const container = document.querySelector(".section-title");
+  
+      const h2 = document.createElement("h2");
+      h2.textContent = title;
+  
+      const div = document.createElement("div");
+      const span1 = document.createElement("span");
+      span1.textContent = subtitle;
+  
+      const span2 = document.createElement("span");
+      span2.className = "description-title";
+      span2.textContent = highlight;
+  
+      div.appendChild(span1);
+      div.appendChild(document.createTextNode(" "));
+      div.appendChild(span2);
+  
+      container.appendChild(h2);
+      container.appendChild(div);
+    }
   
     function createGalleryItem(src) {
       const col = document.createElement("div");
@@ -31,9 +51,20 @@
   
     document.addEventListener("DOMContentLoaded", () => {
       const row = document.getElementById("gallery-row");
-      galleryImages.forEach((src) => {
-        const item = createGalleryItem(src);
-        row.appendChild(item);
-      });
+  
+      fetch("galleria.json")
+        .then((res) => res.json())
+        .then((data) => {
+          createSectionTitle(data);
+  
+          data.images.forEach((src) => {
+            const item = createGalleryItem(src);
+            row.appendChild(item);
+          });
+        })
+        .catch((err) => {
+          console.error("Errore nel caricamento della galleria:", err);
+        });
     });
-  })();  
+  })();
+  
