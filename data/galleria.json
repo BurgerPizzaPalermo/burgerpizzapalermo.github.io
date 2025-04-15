@@ -1,23 +1,22 @@
 {
-    "title": "Galleria",
-    "subtitle": "Qualche foto dal",
-    "highlight": "Nostro Ristorante",
-    "images": [
-      "assets/img/gallery/gallery-1.webp",
-      "assets/img/gallery/gallery-2.webp",
-      "assets/img/gallery/gallery-3.webp",
-      "assets/img/gallery/gallery-4.webp",
-      "assets/img/gallery/gallery-5.webp",
-      "assets/img/gallery/gallery-6.webp",
-      "assets/img/gallery/gallery-7.webp",
-      "assets/img/gallery/gallery-8.webp",
-      "assets/img/gallery/gallery-9.webp",
-      "assets/img/gallery/gallery-10.webp",
-      "assets/img/gallery/gallery-11.webp",
-      "assets/img/gallery/gallery-12.webp",
-      "assets/img/gallery/gallery-13.webp",
-      "assets/img/gallery/gallery-14.webp",
-      "assets/img/gallery/gallery-15.webp"
-    ]
-  }
-  
+  "title": "Galleria",
+  "subtitle": "Qualche foto dal",
+  "highlight": "Nostro Ristorante",
+  "images": [
+    "assets/img/gallery/gallery-1.webp",
+    "assets/img/gallery/gallery-2.webp",
+    "assets/img/gallery/gallery-3.webp",
+    "assets/img/gallery/gallery-4.webp",
+    "assets/img/gallery/gallery-5.webp",
+    "assets/img/gallery/gallery-6.webp",
+    "assets/img/gallery/gallery-7.webp",
+    "assets/img/gallery/gallery-8.webp",
+    "assets/img/gallery/gallery-9.webp",
+    "assets/img/gallery/gallery-10.webp",
+    "assets/img/gallery/gallery-11.webp",
+    "assets/img/gallery/gallery-12.webp",
+    "assets/img/gallery/gallery-13.webp",
+    "assets/img/gallery/gallery-14.webp",
+    "assets/img/gallery/gallery-15.webp"
+  ]
+}
