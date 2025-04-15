@@ -2,7 +2,7 @@
     "use strict";
   
     function createSectionTitle({ title, subtitle, highlight }) {
-      const container = document.querySelector(".section-title");
+      const galleryTitle = document.getElementById("gallery-title");
   
       const h2 = document.createElement("h2");
       h2.textContent = title;
@@ -19,8 +19,8 @@
       div.appendChild(document.createTextNode(" "));
       div.appendChild(span2);
   
-      container.appendChild(h2);
-      container.appendChild(div);
+      galleryTitle.appendChild(h2);
+      galleryTitle.appendChild(div);
     }
   
     function createGalleryItem(src) {
@@ -50,7 +50,7 @@
     }
   
     document.addEventListener("DOMContentLoaded", () => {
-      const row = document.getElementById("gallery-row");
+      const gallery = document.getElementById("gallery-photos");
   
       fetch("data/galleria.json")
         .then((res) => res.json())
@@ -59,7 +59,7 @@
   
           data.images.forEach((src) => {
             const item = createGalleryItem(src);
-            row.appendChild(item);
+            gallery.appendChild(item);
           });
         })
         .catch((err) => {
