@@ -16,7 +16,7 @@
       iframe.loading = "lazy";
       iframe.setAttribute("allowfullscreen", "");
       iframe.setAttribute("title", "Google Maps");
-      mapContainer.innerHTML = ""; // Rimuovi il messaggio di caricamento
+      mapContainer.innerHTML = "";
       mapContainer.appendChild(iframe);
     };
 
