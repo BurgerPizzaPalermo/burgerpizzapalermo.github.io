@@ -10,7 +10,9 @@
   function createMenuItemHTML(category, nome, descrizione, prezzo, immagine) {
     const imageName = immagine && immagine.trim() !== "" ? immagine.trim() : "default.webp";
     const imagePath = `assets/img/menu/${imageName}`;
-  
+    const priceArea = category == "allergeni"
+      ? ""
+      : `€${prezzo}`
     return `
       <div class="col-lg-6 menu-item isotope-item filter-${category}">
         <a href="${imagePath}" class="glightbox" data-gallery="menu-gallery">
@@ -19,7 +21,7 @@
                loading="lazy">
         </a>
         <div class="menu-content">
-          <a href="#menu">${nome}</a><span>€${prezzo}</span>
+          <a href="#menu">${nome}</a><span>${priceArea}</span>
         </div>
         <div class="menu-ingredients">${descrizione}</div>
       </div>
