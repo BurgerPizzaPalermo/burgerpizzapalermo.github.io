@@ -4,7 +4,7 @@
   const CATEGORIES = [
     "Antipasti", "Aperitivi", "Impasti", "Pizze Classiche",
     "Pizze con Bufala", "Pizze Gourmet", "Calzoni", "Hamburger",
-    "Secondi", "Dolci", "Bibite", "Birre alla Spina"
+    "Secondi", "Dolci", "Bibite", "Birre alla Spina", "Allergeni"
   ];
 
   function createMenuItemHTML(category, nome, descrizione, prezzo, immagine) {
