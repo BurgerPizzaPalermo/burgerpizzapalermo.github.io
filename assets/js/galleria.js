@@ -52,7 +52,7 @@
     document.addEventListener("DOMContentLoaded", () => {
       const row = document.getElementById("gallery-row");
   
-      fetch("galleria.json")
+      fetch("data/galleria.json")
         .then((res) => res.json())
         .then((data) => {
           createSectionTitle(data);
